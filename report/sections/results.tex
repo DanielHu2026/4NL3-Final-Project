@@ -1,1 +1,55 @@
-What are your results? What did you implement and what did your classmates implement? What are your baselines? Refer to items 5 and 6. This may take around 0.5-1 pages.
+% What are your results? What did you implement and what did your classmates implement? What are your baselines? Refer to items 5 and 6. This may take around 0.5-1 pages.
+In comparing the data to other groups, the metrics are seen in Table \ref{model-results}.
+
+\begin{table*}
+  \centering
+  \begin{tabular}{l c}
+    \hline
+    \textbf{Model} & \textbf{F1 Score} \\
+    \hline
+    Logistic Regression w/ Features (Ours) & 0.8730 \\
+    Fine-tuned: google/electra-small-discriminator (Ours) & 0.8665 \\
+    Fine-tuned: distilbert-base-uncased (Ours) & 0.8646 \\
+    Fine-tuned DistilBERT & 0.8641 \\
+    Fine-tuned: xlnet-base-cased (Ours) & 0.8500 \\
+    Fine-tuned RoBERTa & 0.8500 \\
+    Linear Regression w/ TF-IDF Baseline & 0.8500 \\
+    BoW Classifier (TF-IDF + LR) & 0.8372 \\
+    Zero-shot: facebook/bart-large-mnli & 0.7276 \\
+    Zero-shot: DeBERTa-v3 & 0.6299 \\
+    Majority Baseline & 0.33 \\
+    \hline
+  \end{tabular}
+  \caption{\label{model-results}
+    Comparison of Model Performances on Pop vs. Metal Genre Classification.
+  }
+\end{table*}
+
+Surprisingly, logistic regression with features performed the best.
+This is likely due to the fact that the features encoded common traits of songs that were directly related to their genre.
+With the language models used, they had to rely on their corpus and textual context to identify genre, which is less effective than finding patterns in other features of the lyrics.
+
+The features used include structural markers (e.g., bracketed tags denoting choruses or guitar solos), emotional intensity indicators (e.g., exclamation marks and capitalized words), and the Type-Token Ratio (TTR) which mathematically measures lyrical repetition.
+By applying sublinear TF-IDF scaling at both the word and character n-gram levels, the pipeline captured morphological variations like slang without overfitting to repetitive pop choruses.
+Conversely, the deep learning models that make up most of the lower scores must deduce these differences indirectly through their embedding spaces during fine-tuning or zero-shot classification.
+By explicitly engineering features which are tailored to how music lyrics are often structured in these genres, where pop is often repetitive between a verse and chorus while metal has intense and complex phrasing, the logistic regression was effectively given a shortcut to view statistical differences between the genres.
+
+The next best model was ELECTRA, which performed better than all other transformer architecture models.
+This is likely rooted in how it was pretrained, using a generator that replaces tokens with plausible fakes and a discriminator that evaluates tokens to classify them as real or artificially generated.
+Compared to Masked Language Modeling (MLM) that architectures like BERT use, where about 15\% of the input tokens are masked per pass, ELECTRA can extract a training signal from 100\% of the tokens it ingests.
+Thus, it has a more efficient and highly contextual understanding of the lyrics, allowing it to outperform MLM models.
+
+Next, fine-tuned transformers like DistilBERT, XLNet, and RoBERTa have similar F1 scores.
+Our DistilBERT and XLNet models had scores of 0.8646 and 0.8500 respectively, which closely mirror other group's scores of DistilBERT with 0.8641 and RoBERTa with 0.8500.
+This likely shows a plateau in their learning, as standard contextual embeddings are unlikely to completely capture the intricacies of lyrics.
+While RoBERTa is an optimized version of BERT that uses dynamic masking and larger training batches, it cannot surpass the plateau, suggesting that their standard contextual embeddings cannot capture structural intricacies in the song lyrics.
+This is also put into context by strong baseline performance, such as linear regression with TF-IDF having the exact same F1 score as XLNet and RoBERTa.
+This proves that Pop and Metal often rely on distinct, separable vocabularies, but the architecture of standard MLM models is unable to find clear differences past that to achieve higher performance like ELECTRA.
+
+These results make sense given the limitations of the models, their methods of training, and the nature of the song lyrics used in this classification task.
+The table demonstrates exactly what happens when models do not understand domain-specific vocabulary.
+This is evident in the sharp drop in F1 scores for zero shot models, which evaluate the lyrics based on their general-purpose text pre-training corpus.
+These zero-shot models attempt to logically entail the hypothesis of lyrics being a specific genre, but are reliant on the data they were trained on which is not specialized to this task.
+They fail to interpret the specific formatting unique to song lyrics due to being trained on too general a corpus with no fine knowledge of pop vs metal.
+It is clear that while contextual transformer embeddings are a strong foundation, efficient pre-training methods like ELECTRA outperform these models.
+However, using feature engineering to derive textual features is ultimately the most effective methodology for this classification task.
