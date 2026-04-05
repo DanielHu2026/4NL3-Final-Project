@@ -1,0 +1,8 @@
+The ELECTRA model was implemented using the standard AutoModelForSequenceClassification and AutoTokenizer from HuggingFace.
+Due to its computational efficiency, we were able to maximize the sequence length to ELECTRA's 512 token limit without surpassing available compute.
+This was clearly a helpful setting as it outperformed all baselines and models by other groups, making it an effective improvement by giving the model access to the largest possible context during its fine-tuning.
+
+The loss function and optimizer were kept at the default to isolate architectural benefits of ELECTRA in comparison to other models. 
+Thus, cross-entropy loss was used as the objective function, which calculates the difference between the predicted probability and actual truth, heavily penalizing the model for being confidently wrong.
+The optimizer was Adam with Weight Decay, which pushes the weights towards zero during training to ensure the model remains generalized and does not overfit.
+Finally, because this implementation uses a standard architecture, feature ablations were not applicable to this specific model.
