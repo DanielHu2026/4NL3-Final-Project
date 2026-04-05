@@ -70,7 +70,7 @@ model = Pipeline([
     ("lr", LogisticRegression(
         max_iter=3000,
         solver="lbfgs",
-        C=8.0,               # try 0.5, 1, 2, 4
+        C=8.0,             
     ))
 ])
 
