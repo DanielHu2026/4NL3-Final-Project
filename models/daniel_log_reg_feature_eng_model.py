@@ -9,6 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import classification_report
 
+#AI usage comments. Majority of code was copied from previous submission of baselines. Idea generation for what feature engineering features to use was assisted by ChatGPT. 1 query was used = 4.32g of carbon emissions.
 
 def make_numeric_features(texts: pd.Series) -> np.ndarray:
     feats = []
@@ -77,6 +78,7 @@ model = Pipeline([
 # Fit/eval
 train = pd.read_csv("train.csv")
 val = pd.read_csv("val.csv")
+test = pd.read_csv("test.csv")
 
 X_train, y_train = train["lyrics"], train["genre"].str.lower().str.strip()
 X_val, y_val = val["lyrics"], val["genre"].str.lower().str.strip()
@@ -84,9 +86,14 @@ X_val, y_val = val["lyrics"], val["genre"].str.lower().str.strip()
 model.fit(X_train, y_train)
 pred = model.predict(X_val)
 
-print({
-    "accuracy": accuracy_score(y_val, pred),
-    "macro_f1": f1_score(y_val, pred, average="macro")
+test_pred = model.predict(test["lyrics"].astype(str))
+
+submission = pd.DataFrame({
+    "lyric_id": test["lyric_id"],
+    "genre": test_pred   # predictions are 'p' or 'm'
 })
 
-print(classification_report(y_val, pred, digits=4))
+submission.to_csv("submission.csv", index=False)
+
+print("Saved submission.csv with", len(submission), "rows")
+print(submission.head())
