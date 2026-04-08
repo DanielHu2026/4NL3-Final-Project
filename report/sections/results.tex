@@ -1,27 +1,27 @@
 % What are your results? What did you implement and what did your classmates implement? What are your baselines? Refer to items 5 and 6. This may take around 0.5-1 pages.
 In comparing the data to other groups, the metrics are seen in Table \ref{model-results}.
 
-\begin{table*}
+\begin{table*}[h]
   \centering
-  \begin{tabular}{l c}
+  \begin{tabular}{l c c}
     \hline
-    \textbf{Model} & \textbf{F1 Score} \\
+    \textbf{Model} & \textbf{Macro-F1 Score} & \textbf{Accuracy} \\
     \hline
-    Logistic Regression w/ Features (Ours) & 0.8730 \\
-    Fine-tuned: google/electra-small-discriminator (Ours) & 0.8665 \\
-    Fine-tuned: distilbert-base-uncased (Ours) & 0.8646 \\
-    Fine-tuned DistilBERT & 0.8641 \\
-    Fine-tuned: xlnet-base-cased (Ours) & 0.8500 \\
-    Fine-tuned RoBERTa & 0.8500 \\
-    Linear Regression w/ TF-IDF Baseline & 0.8500 \\
-    BoW Classifier (TF-IDF + LR) & 0.8372 \\
-    Zero-shot: facebook/bart-large-mnli & 0.7276 \\
-    Zero-shot: DeBERTa-v3 & 0.6299 \\
-    Majority Baseline & 0.33 \\
+    Logistic Regression w/ Feature Eng (Ours) & 0.8730 & 0.8730 \\
+    Fine-tuned: google/electra-small-discriminator (Ours) & 0.8665 & 0.8665 \\
+    Fine-tuned: distilbert-base-uncased (Ours) & 0.8646 & 0.8646 \\
+    Fine-tuned DistilBERT & 0.8641 & 0.8641 \\
+    Fine-tuned: xlnet-base-cased (Ours) & 0.8521 & 0.8521 \\
+    Fine-tuned RoBERTa & 0.8500 & 0.8500 \\
+    Linear Regression w/ TF-IDF Baseline & 0.8500 & 0.8500 \\
+    BoW Classifier (TF-IDF + LR) & 0.8372 & 0.8372 \\
+    Zero-shot: facebook/bart-large-mnli & 0.7379 & 0.7379 \\
+    Zero-shot: DeBERTa-v3 & 0.6200 & 0.6300 \\
+    Majority Baseline & 0.3334 & 0.5001 \\
     \hline
   \end{tabular}
   \caption{\label{model-results}
-    Comparison of Model Performances on Pop vs. Metal Genre Classification.
+    Comparison of model performances on Pop vs.\ Metal genre classification.
   }
 \end{table*}
 
